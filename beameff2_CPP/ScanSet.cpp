@@ -903,8 +903,8 @@ bool ScanSet::makeOnePlot(const std::string &outputDirectory, const std::string 
     fprintf(f, "set output '%s'%s", fileNamePlot.c_str(), NL);
     fprintf(f, "set title '%s'%s", title.c_str(), NL);
     // X and Y axis labels:
-    fprintf(f, "set xlabel '%s'%s", (nf) ? "X(mm)" : "Az(deg)", NL);
-    fprintf(f, "set ylabel '%s'%s", (nf) ? "Y(mm)" : "El(deg)", NL);
+    fprintf(f, "set xlabel '%s'%s", (nf) ? "X(m)" : "Az(deg)", NL);
+    fprintf(f, "set ylabel '%s'%s", (nf) ? "Y(m)" : "El(deg)", NL);
     // Palette limited to -50 to 0:
     fprintf(f, "set palette model RGB defined (-50 'purple', -40 'blue', -30 'green', -20 'yellow', -10 'orange', 0 'red')%s", NL);
     // Label for legend:
@@ -924,7 +924,7 @@ bool ScanSet::makeOnePlot(const std::string &outputDirectory, const std::string 
     // For FF plots use parametric mode in degrees to draw the subreflector circle:
     if (!nf) {
         // for FF plots, set the resolution of the subreflector circle:
-        fprintf(f, "set isosamples 13,11%s", NL);
+        fprintf(f, "set isosamples 13%s", NL);
         // draw parametric:
         fprintf(f, "set parametric%s", NL);
         fprintf(f, "set angles degrees%s", NL);
@@ -955,8 +955,15 @@ bool ScanSet::makeOnePlot(const std::string &outputDirectory, const std::string 
     // for FF plots, draw a circle for the subreflector position:
     if (!nf) {
         float subreflectorRadius = ALMAConstants::getSubreflectorRadius(pointingOption_m);
-        fprintf(f, ",%f + %.2f*cos(u),%f + %.2f*sin(u),1 notitle lw 3 ",
-                   azPointing, subreflectorRadius, elPointing, subreflectorRadius);
+        int color = (phase) ? -111 : -40;  // blue
+        // draw three circles close together to make lines appear thick:
+        // splot doesn't seem to support linewidth - the resolution is controlled by the input data grid.
+        fprintf(f, ",%f + %.2f*cos(u),%f + %.2f*sin(u),%d notitle",
+                   azPointing, subreflectorRadius, elPointing, subreflectorRadius, color);
+        fprintf(f, ",%f + %.2f*cos(u * 0.98),%f + %.2f*sin(u * 0.98),%d notitle",
+                   azPointing, subreflectorRadius, elPointing, subreflectorRadius, color);
+        fprintf(f, ",%f + %.2f*cos(u * 0.96),%f + %.2f*sin(u * 0.96),%d notitle",
+                   azPointing, subreflectorRadius, elPointing, subreflectorRadius, color);
     }
     fprintf(f, "%s", NL);
     fclose(f);
@@ -1051,7 +1058,7 @@ bool ScanSet::makePhaseFitPlot(const std::string &outputDirectory, const std::st
     // Set the X and Y resolution of the plot:
     fprintf(f, "set isosamples 201,201\r\n");
 
-    fprintf(f, "set xtics 2\r\n");
+    fprintf(f, "set xtics rotate 2\r\n");
     fprintf(f, "set ytics 2\r\n");
     fprintf(f, "set xrange [-16:16]\r\n");
     fprintf(f, "set yrange [-16:16]\r\n");

@@ -21,12 +21,15 @@
 
 #include "SWVersion.h"
 
-const std::string BEAMEFF_SW_VERSION_STRING("2.0.16b1");
+const std::string BEAMEFF_SW_VERSION_STRING("2.0.16b2");
 
 //*******                        Be sure to update resource.rc!
 
 
 // Version history
+// 2.0.16b2: Improve subreflector circle visibility on FF plots.
+//           Fix units (m) on NF plots.
+//           Clarify code in unwrapPhase()
 // 2.0.16b1: Do a linear search in Z between two multidimensional FitPhase.
 // 2.0.16b0: Look for GNUPLOT_BIN in environment if not specified in input file.
 //         Initialize nominal focus at -zdistance, but invert it to positive if scan phase is inverted.

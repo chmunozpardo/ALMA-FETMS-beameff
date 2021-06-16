@@ -434,17 +434,18 @@ bool ScanDataRaster::unwrapPhase() {
     for (i = 0; i < size_m; i++)
         phiArrayUnwrapped_m.push_back(static_cast<float>(unwrapped_image[i]));
 
-    // find the new phase at the peak and offset it to be the same as the wrapped phase array:
-    float maxAmp, newPhaseAtPeak, phaseOffset;
+    // find the new phase at the peak and offset it to be the same as the unwrapped phase array:
+    float maxAmp, newPhaseAtPeak, phaseDifference;
     calcPeakAndPhase_impl(maxAmp, newPhaseAtPeak, ampArray_m, phiArrayUnwrapped_m);
-    phaseOffset = results_m.phaseAtPeak - newPhaseAtPeak;
+    phaseDifference = results_m.phaseAtPeak - newPhaseAtPeak;
 
-    cout << "results_m.phaseAtPeak=" << results_m.phaseAtPeak
-         << " newPhaseAtPeak=" << newPhaseAtPeak
-         << " phaseOffset=" << phaseOffset << endl;
+    cout << "previous phaseAtPeak=" << results_m.phaseAtPeak
+         << " new phaseAtPeak=" << newPhaseAtPeak
+         << " phaseDifference=" << phaseDifference << endl;
 
+    // rotate the unwrapped phase to match the wrapped phase at the peak:
     for (i = 0; i < size_m; i++)
-        phiArrayUnwrapped_m[i] = phiArrayUnwrapped_m[i] + phaseOffset;
+        phiArrayUnwrapped_m[i] = phiArrayUnwrapped_m[i] + phaseDifference;
 
     phiArrayPhaseFit_mp = &phiArrayUnwrapped_m; // now using the unwrapped phases for phase fit
     return true;
