@@ -21,7 +21,7 @@
 
 #include "SWVersion.h"
 
-const std::string BEAMEFF_SW_VERSION_STRING("2.0.16b2");
+const std::string BEAMEFF_SW_VERSION_STRING("2.0.16b3");
 
 //*******                        Be sure to update resource.rc!
 
