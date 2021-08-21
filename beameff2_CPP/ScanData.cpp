@@ -150,7 +150,7 @@ bool ScanData::loadFromIni(const dictionary *dict, const std::string inputSectio
     nominalFocusZ_m = static_cast<float>(iniparser_getdouble(dict, sectionKey.c_str(), 0.0));
     //If zero or not provided, assume the FETMS default of 200 mm:
     if (nominalFocusZ_m == 0.0) {
-        nominalFocusZ_m = 200.0;
+        nominalFocusZ_m = -200.0;
         cout << "zdistance not specified in input. Using " << nominalFocusZ_m << " mm<br>" << endl;
     }
     //Start the nominal focus is negative relative to the probe (but may get inverted in loadListings):
