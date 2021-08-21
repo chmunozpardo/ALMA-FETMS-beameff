@@ -44,6 +44,29 @@ float *vector(long nl, long nh)
 	return v-nl+NR_END;
 }
 
+double *vector_double(long nl, long nh)
+/* allocate a double vector with subscript range v[nl..nh] */
+{
+	double *v;
+        int size = (nh-nl+1+NR_END)*sizeof(double);
+	if (DEBUGGING_NR) {
+	  fprintf(stderr,"vector: v=malloc(%d)\n",size);
+	}
+	v=(double *)malloc((size_t) (size));
+	if (v==NULL) {
+	  fprintf(stderr,"Got a null pointer\n");
+	} else {
+	  if (DEBUGGING_NR) {
+	    fprintf(stderr,"returned pointer = %p\n",v);
+	  }
+	}
+	if (!v) nrerror("allocation failure in vector()");
+	if (DEBUGGING_NR) {
+	  fprintf(stderr,"Done malloc\n");
+	}
+	return v-nl+NR_END;
+}
+
 int *ivector(long nl, long nh)
 /* allocate an int vector with subscript range v[nl..nh] */
 {
@@ -235,6 +258,12 @@ float ***f3tensor(long nrl, long nrh, long ncl, long nch, long ndl, long ndh)
 }
 
 void free_vector(float *v, long nl, long nh)
+/* free a float vector allocated with vector() */
+{
+	free((FREE_ARG) (v+nl-NR_END));
+}
+
+void free_vector_double(double *v, long nl, long nh)
 /* free a float vector allocated with vector() */
 {
 	free((FREE_ARG) (v+nl-NR_END));

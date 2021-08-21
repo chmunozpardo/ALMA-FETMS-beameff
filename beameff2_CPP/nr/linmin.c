@@ -5,18 +5,18 @@
 #define TOL 2.0e-4
 extern int DEBUGGING_NR;
 int ncom;
-float *pcom,*xicom,(*nrfunc)(float []);
+double *pcom,*xicom,(*nrfunc)(double []);
 
-void linmin(float p[], float xi[], int n, float *fret, float (*func)(float []))
+void linmin(double p[], double xi[], int n, double *fret, double (*func)(double []))
 {
-	float brent(float ax, float bx, float cx,
-		float (*f)(float), float tol, float *xmin);
-	float f1dim(float x);
-	void mnbrak(float *ax, float *bx, float *cx, float *fa, float *fb,
-		float *fc, float (*func)(float));
+	double brent(double ax, double bx, double cx,
+		double (*f)(double), double tol, double *xmin);
+	double f1dim(double x);
+	void mnbrak(double *ax, double *bx, double *cx, double *fa, double *fb,
+		double *fc, double (*func)(double));
 	int j;
-	float xx,xmin,fx,fb,fa,bx,ax;
-	
+	double xx,xmin,fx,fb,fa,bx,ax;
+
 	if (DEBUGGING_NR) {
 	  fprintf(stderr,"Inside linmin with n=%d\n",n);
 	}
@@ -24,11 +24,11 @@ void linmin(float p[], float xi[], int n, float *fret, float (*func)(float []))
 	if (DEBUGGING_NR) {
 	  fprintf(stderr,"Calling vector(1,%d)\n",n);
 	}
-	pcom=vector(1,n);
+	pcom=vector_double(1,n);
 	if (DEBUGGING_NR) {
 	  fprintf(stderr,"done vector(1,%d)\n",n);
 	}
-	xicom=vector(1,n);
+	xicom=vector_double(1,n);
 	if (DEBUGGING_NR && 0) {
 	  fprintf(stderr,"done vector(1,%d)\n",n);
 	}
@@ -51,13 +51,13 @@ void linmin(float p[], float xi[], int n, float *fret, float (*func)(float []))
 	if (DEBUGGING_NR) {
 	  fprintf(stderr,"returned from brent\n");
 	}
-	
+
 	for (j=1;j<=n;j++) {
 		xi[j] *= xmin;
 		p[j] += xi[j];
 	}
-	free_vector(xicom,1,n);
-	free_vector(pcom,1,n);
+	free_vector_double(xicom,1,n);
+	free_vector_double(pcom,1,n);
 }
 #undef TOL
 #undef NRANSI

@@ -3,17 +3,17 @@
 #include "nrutil.h"
 
 extern int ncom;
-extern float *pcom,*xicom,(*nrfunc)(float []);
+extern double *pcom,*xicom,(*nrfunc)(double []);
 
-float f1dim(float x)
+double f1dim(double x)
 {
 	int j;
-	float f,*xt;
+	double f,*xt;
 
-	xt=vector(1,ncom);
+	xt=vector_double(1,ncom);
 	for (j=1;j<=ncom;j++) xt[j]=pcom[j]+x*xicom[j];
 	f=(*nrfunc)(xt);
-	free_vector(xt,1,ncom);
+	free_vector_double(xt,1,ncom);
 	return f;
 }
 #undef NRANSI

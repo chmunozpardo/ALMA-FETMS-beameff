@@ -31,8 +31,8 @@ extern "C" {
 namespace BeamFitting {
 
     // forward declare fitness functions:
-    float function_amp(float p[]);
-    void dfunction_amp(float p[], float df[]);
+    double function_amp(double p[]);
+    void dfunction_amp(double p[], double df[]);
 
     const int nTerms_m(6);         ///< terms of amplitude fit model
     ScanData *fitAmpScan(NULL);    ///< Scan we are currently fitting against
@@ -46,10 +46,10 @@ namespace BeamFitting {
 
         float ftol = pow(10, -1.0 * fitAmpScan -> getBand());
         int iter_amp;
-        float fret_amp;
-        float p[nTerms_m + 1];
-        void (*dfunctionamp)(float p[], float df[]);
-        float (*functionamp)(float p[]);
+        double fret_amp;
+        double p[nTerms_m + 1];
+        void (*dfunctionamp)(double p[], double df[]);
+        double (*functionamp)(double p[]);
 
         functionamp = &function_amp;
         dfunctionamp = &dfunction_amp;
@@ -74,7 +74,7 @@ namespace BeamFitting {
         fitAmpScan -> setAmpFitResults(p[1], p[2], p[3], p[4], p[5], p[6]);
     }
 
-    void dfunction_amp(float p[], float df[]) {
+    void dfunction_amp(double p[], double df[]) {
     /* This function should compute the gradients of the chi-squared function,
      * which are stored in the array "df". Since it is not a analytic function,
      * we must compute the partial derivatives numerically, which is done using:
@@ -82,8 +82,8 @@ namespace BeamFitting {
      *
      */
         int i,j;
-        float par[nTerms_m + 1];
-        float delta = 0.01, del;
+        double par[nTerms_m + 1];
+        double delta = 0.01, del;
 
         const ScanDataRaster *pscan = fitAmpScan -> getFFScan();
         if (!pscan)
@@ -108,7 +108,7 @@ namespace BeamFitting {
     }
 
 
-    float function_amp(float p[]) {
+    double function_amp(double p[]) {
     /* This function should return the chi-squared value for the current model
      * parameters that are passed in as an argument.  In this case, we want
      * to minimize the phase "inefficiency", so we simply calculate that.

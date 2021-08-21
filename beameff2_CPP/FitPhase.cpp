@@ -35,12 +35,12 @@ extern "C" {
 
 namespace BeamFitting {
     // forward declare fitness functions:
-    void dfunction_phase(float p[], float df[]);
-    float function_phase(float p[]);
-    float function_phase_z(float delta_z);
+    void dfunction_phase(double p[], double df[]);
+    double function_phase(double p[]);
+    double function_phase_z(double delta_z);
 
     // forward declare debug function:
-    void MapPhaseEff(float p[]);
+    void MapPhaseEff(double p[]);
 
     const int nTerms_m(3);              ///< terms of phase center model
     const float tol(4.40e-4);  ///< linear search tolerance = about the square root of the machine epsilon for float
@@ -59,12 +59,12 @@ namespace BeamFitting {
         BeamFitting::elNominal = _elNominal;
 
         int iter_phase;         // how many iterations taken by frprmn()
-        float fret_phase;       // fit residual error returned by frprmn() = 1-eta_phase
-        float p[nTerms_m + 1];  // terms of the fit search: [0, x, y, z]
+        double fret_phase;       // fit residual error returned by frprmn() = 1-eta_phase
+        double p[nTerms_m + 1];  // terms of the fit search: [0, x, y, z]
 
         // start from the nominal focus Z as our guess for delta_z:
-        float k = fitPhaseScan -> getKWaveNumber();  // rad/m
-        float zRadians = fitPhaseScan -> getNominalFocusZ() * k / 1000.0;
+        double k = fitPhaseScan -> getKWaveNumber();  // rad/m
+        double zRadians = fitPhaseScan -> getNominalFocusZ() * k / 1000.0;
         p[0] = 0.0;
         p[1] = 0.0;
         p[2] = 0.0;
@@ -77,9 +77,9 @@ namespace BeamFitting {
         // First do a line search along the z axis:
         delta_x_m = p[1];
         delta_y_m = p[2];
-        float ax = p[3] - fabsf(zRadians) / 2;
-        float bx = p[3] + fabsf(zRadians) / 2;
-        float cx, fa, fb, fc;
+        double ax = p[3] - fabsf(zRadians) / 2;
+        double bx = p[3] + fabsf(zRadians) / 2;
+        double cx, fa, fb, fc;
 
 //        // bracket the minimum of the phase fit function in delta_z:
 //        mnbrak(&ax, &bx, &cx, &fa, &fb, &fc, function_phase_z);
@@ -138,7 +138,7 @@ namespace BeamFitting {
         fitPhaseScan -> setPhaseFitResults(deltaX, deltaY, deltaZ, 1.0 - fret_phase);
     }
 
-    void MapPhaseEff(float p[]) {
+    void MapPhaseEff(double p[]) {
         // Was used for troubleshooting the phase fit.
         // Outputs a matrix of eta_phase vs delta_x, delta_y at fixed delta_z
         float k = fitPhaseScan -> getKWaveNumber();  // rad/m
@@ -170,13 +170,13 @@ namespace BeamFitting {
     /// Compute the gradient of the phase fitting function (1.0-eta_phase) at the given coordinates:
     /// p[] = {delta_x, delta_y, delta_z} in radians.
     /// Gradient is returned in df[].
-    void dfunction_phase(float p[], float df[]) {
+    void dfunction_phase(double p[], double df[]) {
         // Since it is not a analytic function, we must compute the partial derivatives numerically,
         // using:  d(func) / dp[j] = (func(p[j]+del) - func(p[j])) / del
 
         int i,j;
-        float par[nTerms_m + 1];
-        float delta = 0.01, del;
+        double par[nTerms_m + 1];
+        double delta = 0.01, del;
 
         const ScanDataRaster *pscan = fitPhaseScan -> getFFScan();
         if (!pscan)
@@ -194,7 +194,7 @@ namespace BeamFitting {
                 /* this takes care of the unique case where the initial guess is zero */
                 del = delta;
             }
-            par[j] += del;
+            par[j] -= del;
             df[j] = ((1.0 - pscan -> calcPhaseEfficiency(par, azNominal, elNominal, approxFit, reduceSubreflector))
                    - (1.0 - pscan -> calcPhaseEfficiency(p, azNominal, elNominal, approxFit, reduceSubreflector))) / del;
         }
@@ -202,7 +202,7 @@ namespace BeamFitting {
 
     /// Return (1.0-eta_phase) if we fit the phase center to the given coordinates:
     /// p[] = {delta_x, delta_y, delta_z} in radians.
-    float function_phase(float p[]) {
+    double function_phase(double p[]) {
         const ScanDataRaster *pscan = fitPhaseScan -> getFFScan();
         if (!pscan)
             return 0.0;
@@ -212,8 +212,8 @@ namespace BeamFitting {
 
     /// Return (1 - eta_phase) if we fit the phase center delta_z to the given value in radians,
     /// with delta_x and delta_y from the previous search:
-    float function_phase_z(float delta_z) {
-        float p[nTerms_m + 1];
+    double function_phase_z(double delta_z) {
+        double p[nTerms_m + 1];
         p[0] = 0.0;
         p[1] = delta_x_m;
         p[2] = delta_y_m;

@@ -450,9 +450,9 @@ bool ScanDataRaster::unwrapPhase() {
     return true;
 }
 
-float ScanDataRaster::calcPhaseEfficiency(float p[], float azNominal, float elNominal, bool approx, bool reduceSubreflector) const {
-    float Az, El, maskE;                                            // values from data arrays
-    float phaseFit, phaseErr, eta_phase;                            // calculated values
+double ScanDataRaster::calcPhaseEfficiency(double p[], float azNominal, float elNominal, bool approx, bool reduceSubreflector) const {
+    double Az, El, maskE;                                            // values from data arrays
+    double phaseFit, phaseErr, eta_phase;                            // calculated values
     double costerm(0.0), sinterm(0.0), normalizationFactor(0.0);    // accumulate fit errors in the loop
 
     unsigned i;
@@ -496,9 +496,9 @@ float ScanDataRaster::calcPhaseEfficiency(float p[], float azNominal, float elNo
     return eta_phase;
 }
 
-float ScanDataRaster::calcAmplitudeEfficiency(float p[], float azActual, float elActual) const {
-    float amp_mod_term, amp_diff_term;
-    float x, y, E, mask;
+double ScanDataRaster::calcAmplitudeEfficiency(double p[], float azActual, float elActual) const {
+    double amp_mod_term, amp_diff_term;
+    double x, y, E, mask;
     double amp_fit = 0.0;
 
     unsigned i;

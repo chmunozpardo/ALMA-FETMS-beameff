@@ -7,13 +7,13 @@
 #define ZEPS 1.0e-10
 #define SHFT(a,b,c,d) (a)=(b);(b)=(c);(c)=(d);
 
-float brent(float ax, float bx, float cx, float (*f)(float), float tol,
-	float *xmin)
+double brent(double ax, double bx, double cx, double (*f)(double), double tol,
+	double *xmin)
 {
 	int iter;
 	char errmesg[100];
-	float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
-	float e=0.0;
+	double a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
+	double e=0.0;
 
 	a=(ax < cx ? ax : cx);
 	b=(ax > cx ? ax : cx);

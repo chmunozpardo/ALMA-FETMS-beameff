@@ -85,8 +85,8 @@ float betai(float a, float b, float x);
 float bico(int n, int k);
 void bksub(int ne, int nb, int jf, int k1, int k2, float ***c);
 float bnldev(float pp, int n, long *idum);
-float brent(float ax, float bx, float cx,
-	float (*f)(float), float tol, float *xmin);
+double brent(double ax, double bx, double cx,
+	double (*f)(double), double tol, double *xmin);
 void broydn(float x[], int n, int *check,
 	void (*vecfunc)(int, float [], float []));
 void bsstep(float y[], float dydx[], int nv, float *xx, float htry,
@@ -196,9 +196,9 @@ void fred2(int n, float a, float b, float t[], float f[], float w[],
 float fredin(float x, int n, float a, float b, float t[], float f[], float w[],
 	float (*g)(float), float (*ak)(float, float));
 void frenel(float x, float *s, float *c);
-void frprmn(float p[], int n, float ftol, int *iter, float *fret,
-	float (*func)(float []), void (*dfunc)(float [], float []));
-	
+void frprmn(double p[], int n, float ftol, int *iter, double *fret,
+	double (*func)(double []), void (*dfunc)(double [], double []));
+
 void ftest(float data1[], unsigned long n1, float data2[], unsigned long n2,
 	float *f, float *prob);
 float gamdev(int ia, long *idum);
@@ -262,7 +262,7 @@ void lfit(float x[], float y[], float sig[], int ndat, float a[], int ia[],
 	int ma, float **covar, float *chisq, void (*funcs)(float, float [], int));
 void linbcg(unsigned long n, double b[], double x[], int itol, double tol,
 	 int itmax, int *iter, double *err);
-void linmin(float p[], float xi[], int n, float *fret,
+void linmin(double p[], float xi[], int n, float *fret,
 	float (*func)(float []));
 void lnsrch(int n, float xold[], float fold, float g[], float p[], float x[],
 	 float *f, float stpmax, int *check, float (*func)(float []));
@@ -292,8 +292,8 @@ void miser(float (*func)(float []), float regn[], int ndim, unsigned long npts,
 	float dith, float *ave, float *var);
 void mmid(float y[], float dydx[], int nvar, float xs, float htot,
 	int nstep, float yout[], void (*derivs)(float, float[], float[]));
-void mnbrak(float *ax, float *bx, float *cx, float *fa, float *fb,
-	float *fc, float (*func)(float));
+void mnbrak(double *ax, double *bx, double *cx, double *fa, double *fb,
+	double *fc, double (*func)(double));
 void mnewt(int ntrial, float x[], int n, float tolx, float tolf);
 void moment(float data[], int n, float *ave, float *adev, float *sdev,
 	float *var, float *skew, float *curt);

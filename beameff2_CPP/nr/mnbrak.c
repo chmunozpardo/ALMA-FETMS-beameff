@@ -6,10 +6,10 @@
 #define TINY 1.0e-20
 #define SHFT(a,b,c,d) (a)=(b);(b)=(c);(c)=(d);
 
-void mnbrak(float *ax, float *bx, float *cx, float *fa, float *fb, float *fc,
-	float (*func)(float))
+void mnbrak(double *ax, double *bx, double *cx, double *fa, double *fb, double *fc,
+	double (*func)(double))
 {
-	float ulim,u,r,q,fu,dum;
+	double ulim,u,r,q,fu,dum;
 
 	*fa=(*func)(*ax);
 	*fb=(*func)(*bx);
