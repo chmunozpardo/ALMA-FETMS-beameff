@@ -43,13 +43,13 @@ namespace BeamFitting {
     void MapPhaseEff(double p[]);
 
     const int nTerms_m(3);              ///< terms of phase center model
-    const float tol(4.40e-4);  ///< linear search tolerance = about the square root of the machine epsilon for float
-    const float ftol(1.19e-7);          ///< function evaluation tolerance = about the machine epsilon for float
+    const double tol(4.40e-4);  ///< linear search tolerance = about the square root of the machine epsilon for float
+    const double ftol(1.19e-7);          ///< function evaluation tolerance = about the machine epsilon for float
     ScanData *fitPhaseScan(NULL);       ///< Scan we are currently fitting against
     static float azNominal;             ///< nominal pointing in Az
     static float elNominal;             ///< nominal pointing in El
-    static float delta_x_m;             ///< delta_x to hold constant while searching in delta_z
-    static float delta_y_m;             ///< delta_y ""
+    static double delta_x_m;             ///< delta_x to hold constant while searching in delta_z
+    static double delta_y_m;             ///< delta_y ""
     static bool approxFit(false);       ///< true=use small-angle approximation phase model for fit; false=use exact model
     bool reduceSubreflector(false);     ///< true=use a reduced size subreflector to search
 

@@ -7,7 +7,7 @@
 #define FREEALL free_vector_double(xi,1,n);free_vector_double(h,1,n);free_vector_double(g,1,n);
 extern int DEBUGGING_NR;
 
-void frprmn(double p[], int n, float ftol, int *iter, double *fret,
+void frprmn(double p[], int n, double ftol, int *iter, double *fret,
 	double (*func)(double []), void (*dfunc)(double [], double []))
 {
         void linmin(double p[], double xi[], int n, double *fret,
